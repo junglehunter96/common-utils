@@ -1,0 +1,518 @@
+## ajax
+
+####创建一个ajax请求
+
+#####老三步
+
+1. 获取事件源
+
+2. 绑定事件
+
+3. 创建ajax请求
+
+   ​	创建ajax对象
+
+   ​	open()设置请求参数
+
+   ​	send()发送请求
+
+   ​	注册事件	
+
+####POST请求时注意
+如果想让像form表单那样使用post请求,就需要使用XMLHttpRequest对象的setRequestHeader()方法来添加HTTP头.然后再send方法中添加想要发送的数据:
+```javascript
+ajaxObj.open("POST","01.php",true);
+ajaxObj.setRequestHeader("Content-type","applicatin/x-www-form-urlencoded");
+ajaxObj.send("name=junglehunter&age=23");
+```
+####onredaystatechange事件
+注册onreadystatechange事件后,每当readyState属性改变时,就会调用onreadystatechange函数.
+readystate:(存有XMLHttpRequest的状态.从0到4发生变化)
+0:请求未初始化
+1:服务器连接已建立
+2.请求已接收
+3.请求处理中
+4.请求已完成,且响应已就绪
+
+status:
+200:"OK"
+404:未找到页面.
+在onreadystatechange事件中,在readyState等于4,且状态码为200时,表示响应已就绪.
+####服务器响应的内容
+responseText: 获得字符创形式的响应数据.
+responseXML: 获得XML形式的响应数据.
+如果响应的普通字符串,就用responseText;如果响应的是XML,使用responseXML.
+
+#### Ajax传输XML(略)
+
+#### Ajax传输JSON
+
+JSON(JavaScript Object Notation)：是ECMAScript的子集。作用是进行数据的交换。语法更为简洁，网络传输、机器解析都更为迅速。
+
+语法规则：
+
+- 数据在键值对中
+- 数据由逗号分隔
+- 花括号保存对象
+- 方括号保存数组
+
+数据类型：
+
+- 数字（整数或浮点数）
+- 字符串（在双引号中）
+- 逻辑值（true 或 false）
+- 数组（在方括号中）
+- 对象（在花括号中）
+- null
+
+示例：
+
+```json
+// 对象
+{
+  "name":"fox",
+  "age":"18",
+  "sex":"true",
+  "car":null
+}
+
+// 数组
+[
+  {
+      "name":"小小胡",
+      "age":"1"
+  },
+  {
+      "name":"小二胡",
+      "age":"2"
+  }
+]
+```
+
+### JavaScript中:json字符串<=>js对象
+
+基本上,所有的语言都有将json字符串转化为该语言对象的语法.
+
+比如在js中:
+
+JSON.parse();将JSON对象转化为js对象.例如:
+
+```javascript
+//将JSON字符串格式化为js对象
+var jsObj = JSON.parse(ajax.responseText);
+```
+
+JSON.stringify():将JS对象转化为JSON字符串.例如:
+
+```javascript
+var Obj = {
+    name: "fox";
+    age: 18;
+    skill: "撩妹"
+};
+
+var JSONStr = JSON.stringify(Obj);
+```
+
+#### PHP中:json字符串<=>变量
+
+json_decode()方法:将json字符串转化为变量.
+
+json_encode()方法:将变量转化为json字符串.
+
+代码举例:
+
+```php
+<?php
+    header("Content-Type:text/html;charset=utf-8");
+    // json字符串
+    $jsonStr = '{"name":"itcast","age":54,"skill":"歌神"}';
+    // 字符串转化为 php对象
+      print_r(json_decode($jsonStr));
+
+      echo "<br>";
+      // php数组
+      $arrayName = array('name' =>'littleFox' ,'age' => 13 );
+      // php对象 转化为 json字符串
+      print_r(json_encode($arrayName));
+ ?>
+```
+输出结果：
+
+```bash
+	stdClass Object ( [name] => itcast [age] => 54 [skill] => 歌神 )
+	{"name":"littleFox","age":13}
+
+```
+#### ajax请求解析json
+
+1).Person.json :
+
+```javascript
+{
+    "name":"小强",
+    "skill":"砍树",
+     "friend":"boss"
+}
+```
+
+2).myJson.php
+
+```php
+<?php
+    //读取json文件,并返回即可
+    echo file_get_contents('info/Person.json');
+?>
+```
+
+3).getJson.html
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取json数据</title>
+</head>
+<body>
+    <input type="button" value="getJson" id="btnJson">
+    <div class="ajaxpost"></div>
+    <script>
+        //获取事件源
+        //document.querySelectorAll(selector)
+        document.querySelector("#btnJson").onclick = function () {
+            //创建ajax对象
+            var ajaxobj = new XMLHttpRequest();
+            //设置参数
+            ajaxobj.open("GET", "myJson.php");
+            ajaxobj.send();
+            ajaxobj.onreadystatechange = function () {
+                if (ajaxobj.readyState == 4 && ajaxobj.status == 200) {
+                    //json 字符串是字符串 所以我们可以通过responseText获取
+                    console.log(ajaxobj.responseText);
+                    // 转化为js对象
+                    var jsobj =JSON.parse(ajaxobj.responseText);
+                    console.log(jsobj);
+                    var strobj = '<ul>';
+                    for(key in jsobj) {
+                        strobj += '<li>'+key+':'+jsobj[key]+'</li>'
+                    }
+                    strobj += '</ul>';
+                    document.querySelector('.ajaxpost').innerHTML = strobj;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
+```
+
+### jQuery 中的 Ajax
+
+
+JQuery作为最受欢迎的js框架之一，常见的Ajax已经帮助我们封装好了，只需要调用即可。更为详细的api文档可以查阅：[w3cSchool_JQueryAjax](http://www.w3school.com.cn/jquery/jquery_ref_ajax.asp)
+
+格式举例：
+
+```javascript
+$.ajax({
+        url:'01.php',//请求地址
+        data:'name=fox&age=18',//发送的数据
+        type:'GET',//请求的方式
+        success:function (argument) {},// 请求成功执行的方法
+        beforeSend:function (argument) {},// 在发送请求之前调用,可以做一些验证之类的处理
+        error:function (argument) {console.log(argument);},//请求失败调用
+    })
+```
+
+
+
+代码举例：
+
+（1）index.html
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jquery-ajax</title>
+</head>
+<body>
+<input type="button" value="点击" id="btn">
+<div id="showInfo"></div>
+<script type="text/javascript" src="jquery-1.11.2.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		$("#btn").click(function(){
+			$.ajax({
+				url:"data.php",
+				dataType:"text",
+				type:"get",
+				success:function(data){
+					alert(data);
+					//$("#showInfo").html(data);
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+		});
+
+
+
+	});
+
+</script>
+</body>
+</html>
+```
+
+（2）data.php：
+
+```php
+<?php
+
+$text = 'hello world';
+
+echo $text;
+
+ ?>
+
+```
+
+
+
+
+## 函数封装
+
+ajax_tool.js：
+
+```javascript
+// 方法：ajax get 五部曲
+function ajax_get(url,data) {
+	// 异步对象
+	var ajax = new XMLHttpRequest();
+
+	// url 方法
+	// 如果是get发送数据 发送的格式为 xxx.php?name=jack&age=18
+	// 所以 这里 需要拼接 url
+	if (data) {
+		// 如果有值 需要拼接字符串
+		// 拼接为xxx.php?name=jack&age=18
+		url+='?';
+		url+=data;
+	}else{
+	}
+
+	ajax.open('get',url);
+	// 发送
+	ajax.send();
+
+	// 注册事件
+	ajax.onreadystatechange = function () {
+		// 在事件中 获取数据 并修改界面显示
+		if (ajax.readyState==4&& ajax.status==200) {
+			console.log(ajax.responseText);
+		}
+	}
+}
+
+
+// 方法：ajax_post五部曲
+function ajax_post(url,data) {
+	// 异步对象
+	var ajax = new XMLHttpRequest();
+
+	// url 方法
+	ajax.open('post',url);
+
+	// 设置 请求报文
+	ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+	// 发送
+	if (data) {
+		// 如果 有值 post请求 是在 send中 发送给服务器
+		ajax.send(data);
+	}else{
+		ajax.send();
+	}
+
+
+	// 注册事件
+	ajax.onreadystatechange = function () {
+		// 在事件中 获取数据 并修改界面显示
+		if (ajax.readyState==4&&ajax.status==200) {
+			console.log(ajax.responseText);
+		}
+	}
+
+}
+
+
+// 方法：将 get 跟post 封装到一起
+/*
+	参数1:url
+	参数2:数据
+	参数3:请求的方法
+	参数4:数据成功获取以后，调用的方法
+*/
+function ajax_tool(url,data,method,success) {
+	// 异步对象
+	var ajax = new XMLHttpRequest();
+
+	// get 跟post  需要分别写不同的代码
+	if (method=='get') {
+		// get请求
+		if (data) {
+			// 如果有值
+			url+='?';
+			url+=data;
+		}else{
+
+		}
+		// 设置 方法 以及 url
+		ajax.open(method,url);
+
+		// send即可
+		ajax.send();
+	}else{
+		// post请求
+		// post请求 url 是不需要改变
+		ajax.open(method,url);
+
+		// 需要设置请求报文
+		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+		// 判断data send发送数据
+		if (data) {
+			// 如果有值 从send发送
+			ajax.send(data);
+		}else{
+			// 木有值 直接发送即可
+			ajax.send();
+		}
+	}
+
+	// 注册事件
+	ajax.onreadystatechange = function () {
+		// 在事件中 获取数据 并修改界面显示
+		if (ajax.readyState==4&&ajax.status==200) {
+			// console.log(ajax.responseText);
+
+			// 将 数据 让 外面可以使用
+			// return ajax.responseText;
+
+			// 当 onreadystatechange 调用时 说明 数据回来了
+			// ajax.responseText;
+
+			// 数据成功获取以后，执行方法success()。
+			//我们把获取的数据作为 success()的参数，意思是：
+			//success方法是外面的，数据是里面给的。那数据就变相地传递到了外面去【重要】
+			success(ajax.responseText);
+		}
+	}
+
+}
+
+```
+
+## 函数调用（get方法）
+
+test_get.html:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button"  value="测试get" id='ajax_get'>
+</body>
+</html>
+<!-- 导入 封装的js -->
+<script type="text/javascript" src='ajax_tool.js'></script>
+<script type="text/javascript">
+	document.querySelector('#ajax_get').onclick = function () {
+		// 直接使用 封装的 工具函数即可
+		/*
+			参数1:url
+			参数2:数据
+			参数3:请求的方法
+			参数4：请求成功后，调用的方法
+		*/
+		var backData = ajax_tool('test_get.php','name=smyhvae&skill=code','get',function(data){
+			console.log(data);
+		});
+		// 测试
+		console.log(backData);
+	}
+</script>
+```
+
+test_get.php：
+
+```php
+<?php
+	// 获取get提交的数据
+	echo $_GET['skill'];
+ ?>
+```
+
+## 函数调用（post方法）
+
+test_post.html：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button"  value="测试post" id='ajax_post'>
+</body>
+</html>
+<!-- 导入 封装的js -->
+<script type="text/javascript" src='ajax_tool.js'></script>
+<script type="text/javascript">
+	document.querySelector('#ajax_post').onclick = function () {
+		// 直接使用 封装的 工具函数即可
+		/*
+			参数1:url
+			参数2:数据
+			参数3:请求的方法
+			参数4:数据获取成功调用的方法
+		*/
+		var backData = ajax_tool('02.test_post.php','friend=好丽友','post',function(data){
+			console.log(data);
+		});
+		// 测试
+		console.log(backData);
+
+
+		// 怎么样 处理数据 全部写在 匿名函数中
+		ajax_tool('02.test_post.php','friend=好丽友','post',function(data){
+			console.log(data);
+			// 修改页面的显示呢?
+		});
+
+	}
+</script>
+```
+
+test_post.php：
+
+```php
+<?php
+
+	echo $_POST['friend'];
+ ?>
+
+```
