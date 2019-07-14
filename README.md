@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## list
 ```
 │  README.md
