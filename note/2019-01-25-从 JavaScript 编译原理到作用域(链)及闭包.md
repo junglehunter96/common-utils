@@ -1,3 +1,17 @@
+---
+layout:     post
+title:      "从JS编译原理到作用域及其闭包"
+subtitle:   " \"base on JavaScript\""
+date:       2019-01-25
+author:     "Axin"
+header-img: "img/home-bg-o.jpg"
+tags:
+    - JavaScript
+    - 原型/原型链
+---
+
+> “Yeah It's on. ”
+
 # 从 JavaScript 编译原理到作用域(链)及闭包
 
 > 虽然作用域的相关知识是 JavaScript 的基础, 但要彻底理解必须要从原理入手. 词法/动态作用域、作用域(链)、变量/函数提升、闭包、垃圾回收 实属一类题目, 打通这几个概念并熟练掌握, 面试基本就不用担心这一块了. 这篇文章是对《JavaScript 高级程序设计 (第三版)》第四章, 同样也是 《你不知道的 JavaScript (上卷)》第一部分的学习和总结.

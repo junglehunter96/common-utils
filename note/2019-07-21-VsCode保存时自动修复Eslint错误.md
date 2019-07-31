@@ -1,4 +1,19 @@
-## VsCode保存时自动修复Eslint错误
+---
+layout:     post
+title:      "VSCode保存时自动修复格式错误"
+subtitle:   " \"Eslint\""
+date:       2019-07-21
+author:     "Axin"
+header-img: "img/home-bg-o.jpg"
+tags:
+    - VSCode
+    - Eslint
+
+---
+
+> “VSCode中Eslint设置相关”
+
+## VSCode保存时自动修复Eslint错误
 
 同一个项目，保持代码风格的一致，是非常重要的一个规范。但事实上项目小组成员的代码校验规则、格式化工具通常都不一致，为了避免项目到后期出现无法维护的问题，项目成员使用同一套校验规则，同一个格式化方式是相当好的步骤之一。
 
@@ -14,7 +29,7 @@
 
 ## [#](http://obkoro1.com/web_accumulate/accumulate/tool/Eslint自动修复格式错误.html#配置：)配置：
 
-### [#](http://obkoro1.com/web_accumulate/accumulate/tool/Eslint自动修复格式错误.html#_1-安装vscode的eslint和vetur插件)1.安装VsCode的`EsLint`和`vetur`插件
+### [#](http://obkoro1.com/web_accumulate/accumulate/tool/Eslint自动修复格式错误.html#_1-安装VSCode的eslint和vetur插件)1.安装VSCode的`EsLint`和`vetur`插件
 
 如图安装`EsLint`插件：
 
@@ -56,7 +71,7 @@ module.exports = {
 ```
 
 
-想了解更多的话，推荐看一下VsCode的[EsLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)插件
+想了解更多的话，推荐看一下VSCode的[EsLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.VSCode-eslint)插件
 
 ### [#](http://obkoro1.com/web_accumulate/accumulate/tool/Eslint自动修复格式错误.html#大功告成：)大功告成：
 
